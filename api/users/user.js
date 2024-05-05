@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../../models/Mongoousers")
 const jwt = require('jsonwebtoken');
 const secretID = process.env.secret_ID_JWT
-const { upload, mediaDeleteS3 } = require('../../utils/aws');
+// const { upload, mediaDeleteS3 } = require('../../utils/aws');
 
 
 
@@ -23,10 +23,10 @@ router.get('/get_all_users', async (req, res) => {
     }
 
 });
-router.post('/:userId/update-profile', upload('Users').single('ProfilePicture'), async (req, res) => {
+router.post('/:userId/update-profile', async (req, res) => {
     try {
         const { userId } = req.params
-        const { email, mobileNumber,address } = req.body
+        const { email, mobileNumber,address,ProfileImageUrl} = req.body
         // console.log(req.body)
         const file = req.file
         if (!userId) {
@@ -39,12 +39,12 @@ router.post('/:userId/update-profile', upload('Users').single('ProfilePicture'),
         if (!currentUser) {
             return res.status(404).json({ message: 'user  not found' });
         }
-        if (currentUser.awsbucketObjectkey) {
-            await mediaDeleteS3(currentUser.awsbucketObjectkey)
-        }
-        if (file) {
-            currentUser.ProfileImageUrl = file.location
-            currentUser.awsbucketObjectkey = file.key;
+        // if (currentUser.awsbucketObjectkey) {
+        //     await mediaDeleteS3(currentUser.awsbucketObjectkey)
+        // }
+        if (ProfileImageUrl) {
+            currentUser.ProfileImageUrl = ProfileImageUrl
+            // currentUser.awsbucketObjectkey = file.key;
         }
         if (email) {
             currentUser.email = email
@@ -133,9 +133,9 @@ router.delete('/:id/delete_user', async (req, res) => {
         if (!user.status) {
             return res.status(404).json({ message: "User is Suspended" });
         }
-        if (user.awsbucketObjectkey) {
-            await mediaDeleteS3(user.awsbucketObjectkey)
-        }
+        // if (user.awsbucketObjectkey) {
+        //     await mediaDeleteS3(user.awsbucketObjectkey)
+        // }
         await User.findByIdAndDelete(id);
 
 

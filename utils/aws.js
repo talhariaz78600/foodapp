@@ -104,74 +104,74 @@
 
 
 // const AWS = require("aws-sdk");
-const multer = require('multer');
-const multerS3 = require("multer-s3");
-const bucketName = process.env.bucket_Name
-const { S3 } = require("@aws-sdk/client-s3");
+// const multer = require('multer');
+// const multerS3 = require("multer-s3");
+// const bucketName = process.env.bucket_Name
+// const { S3 } = require("@aws-sdk/client-s3");
 
-const s3Client = new S3({
-    region: process.env.Region,
-    credentials: {
-        accessKeyId: process.env.access_Key_Id,
-        secretAccessKey: process.env.secret_Access_Key,
-    },
-});
+// const s3Client = new S3({
+//     region: process.env.Region,
+//     credentials: {
+//         accessKeyId: process.env.access_Key_Id,
+//         secretAccessKey: process.env.secret_Access_Key,
+//     },
+// });
 
-const upload = (folderName) =>
-    // console.log("enter hva multer")
-    multer({
-        storage: multerS3({
-            s3: s3Client,
-            bucket: bucketName,
-            acl: "public-read",
-            contentType: multerS3.AUTO_CONTENT_TYPE,
+// const upload = (folderName) =>
+//     // console.log("enter hva multer")
+//     multer({
+//         storage: multerS3({
+//             s3: s3Client,
+//             bucket: bucketName,
+//             acl: "public-read",
+//             contentType: multerS3.AUTO_CONTENT_TYPE,
 
-            key: async (req, file, cb) => {
-                const currentDate = new Date().toISOString().replace(/:/g, "-");
-                const currentTimeInSeconds = Math.floor(Date.now() / 1000);
-                const userId = req.params?.userId; // Use optional chaining
+//             key: async (req, file, cb) => {
+//                 const currentDate = new Date().toISOString().replace(/:/g, "-");
+//                 const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+//                 const userId = req.params?.userId; // Use optional chaining
 
-                const objectKey = userId
-                    ? `${folderName}/${userId}/${currentDate}-${currentTimeInSeconds}-${file.originalname}`
-                    : `${folderName}/${currentDate}-${currentTimeInSeconds}-${file.originalname}`;
+//                 const objectKey = userId
+//                     ? `${folderName}/${userId}/${currentDate}-${currentTimeInSeconds}-${file.originalname}`
+//                     : `${folderName}/${currentDate}-${currentTimeInSeconds}-${file.originalname}`;
 
-                // await uploadObject(objectKey, file); // Upload directly, removing callback
+//                 // await uploadObject(objectKey, file); // Upload directly, removing callback
 
-                cb(null, objectKey);
-            },
-        }),
-    });
+//                 cb(null, objectKey);
+//             },
+//         }),
+//     });
 
-async function uploadObject(objectKey, file) {
-    try {
-        const uploadParams = {
-            Bucket: bucketName,
-            Key: objectKey,
-            Body: file.stream,
-            ContentType: file.mimetype,
-        };
+// async function uploadObject(objectKey, file) {
+//     try {
+//         const uploadParams = {
+//             Bucket: bucketName,
+//             Key: objectKey,
+//             Body: file.stream,
+//             ContentType: file.mimetype,
+//         };
 
-        const uploadResult = await s3Client.upload(uploadParams);
-        console.log("File uploaded successfully:", uploadResult.Location);
-    } catch (err) {
-        console.error("Error uploading file:", err);
-        throw err; // Re-throw the error for handling
-    }
-}
-const mediaDeleteS3 = async function (filename) {
-    const params = {
-        Bucket: bucketName,
-        Key: filename,
-    };
+//         const uploadResult = await s3Client.upload(uploadParams);
+//         console.log("File uploaded successfully:", uploadResult.Location);
+//     } catch (err) {
+//         console.error("Error uploading file:", err);
+//         throw err; // Re-throw the error for handling
+//     }
+// }
+// const mediaDeleteS3 = async function (filename) {
+//     const params = {
+//         Bucket: bucketName,
+//         Key: filename,
+//     };
 
-    try {
-        const deleteResult = await s3Client.deleteObject(params);
-        console.log("File deleted successfully:", deleteResult);
-    } catch (err) {
-        console.error("Error deleting file:", err);
-        throw err; // Re-throw the error for handling
-    }
-};
+//     try {
+//         const deleteResult = await s3Client.deleteObject(params);
+//         console.log("File deleted successfully:", deleteResult);
+//     } catch (err) {
+//         console.error("Error deleting file:", err);
+//         throw err; // Re-throw the error for handling
+//     }
+// };
 
 
-module.exports = { upload, mediaDeleteS3 };
+// module.exports = { upload, mediaDeleteS3 };
