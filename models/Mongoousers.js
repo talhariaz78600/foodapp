@@ -17,10 +17,11 @@ let userSchema = mongoose.Schema({
     },
     ProfileImageUrl: {
         type: String,
-    },
-    awsbucketObjectkey: {
-        type: String,
-    },
+    }
+    ,
+    // awsbucketObjectkey: {
+    //     type: String,
+    // },
 
     // isemailverified: {
     //     type: Boolean,
