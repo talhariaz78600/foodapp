@@ -30,6 +30,8 @@ router.post('/login', async (req, res) => {
         jwt.sign({ id: user._id }, secretID, { expiresIn: '30d' }, async (err, UserToken) => {
             user.sessionExpiration = new Date().getTime() + (1000 * 60 * 60 * 24 * 30); // 30 days in milliseconds
             user.jwttoken = UserToken;
+            
+
             user.lastLogin = new Date();
             await user.save();
             res.status(200).json({ message: 'Successfully Sign In', user });
@@ -48,7 +50,7 @@ router.post('/login', async (req, res) => {
 router.post('/sing-up', async (req, res) => {
 
     try {
-        const {email, password, address, mobileNumber } = req.body;
+        const {email, password, address, mobileNumber,ProfileImageUrl } = req.body;
 
         if (!email || !password || !address|| !mobileNumber) {
             return res.status(400).json({ message: "Invalid Feilds" });
@@ -61,7 +63,7 @@ router.post('/sing-up', async (req, res) => {
             return res.status(404).json({ message: "User Already Exist" });
         }
 
-        const newuser = new User({email, password: hashedPassword, address, mobileNumber })
+        const newuser = new User({email, password: hashedPassword, address, mobileNumber,ProfileImageUrl:ProfileImageUrl })
         newuser.status = true;
         jwt.sign({ id: newuser._id }, secretID, { expiresIn: '30d' }, async (err, UserToken) => {
             newuser.sessionExpiration = new Date().getTime() + (1000 * 60 * 60 * 24 * 30); // 30 days in milliseconds
