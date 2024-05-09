@@ -1,12 +1,12 @@
 let mongoose = require('mongoose');
 let orderSchema = mongoose.Schema({
   userId: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
     productId: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref:'foodItems',
         required: true
     },
