@@ -46,10 +46,11 @@ router.get('/getsingleItem/:id',async (req,res)=>{
     }
 })
 ///////////////////// /api/food/updateitem/:id /////////////////////
-router.put('/updateitem/:id',async(req,res)=>{
+router.put('/updateitem/:id',async (req,res)=>{
     const { title, Ingredients, Description, itemImageUrl, itemPrice } = req.body;
+    const { id }=req.params;
     try {
-        const item= await Food.findById(id);
+        let item= await Food.findById(id);
         if(!item){
             res.status(404).json({message:"item not found"})
         }
@@ -66,13 +67,13 @@ router.put('/updateitem/:id',async(req,res)=>{
             item.itemPrice;
         }
         if(itemImageUrl){
-            item.itemImageUrl=itemImageUrl
+            item.itemImageUrl=itemImageUrl;
         }
         await item.save();
 
         res.status(200).json({message:"item update successfully",item});
     } catch (error) {
-        res.status(500).json({message:"Internal server error"});
+        res.status(500).json({message:"Internal server error",error});
     }
 })
 ///////////////////// /api/food/deleteitem/:id /////////////////////
@@ -95,7 +96,7 @@ router.get('/searchitem', async (req, res) => {
     const { title } = req.query;
   
     try {
-      const foods = await Food.find({ title: { $regex: new RegExp(itemName, 'i') } });
+      const foods = await Food.find({ title: { $regex: new RegExp(title, 'i') } });
   
       if (foods.length > 0) {
         res.json(foods);

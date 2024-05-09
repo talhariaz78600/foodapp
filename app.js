@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 const userRouter = require('./api/users/user');
 const authRouter = require('./api/users/auth');
 const foodRouter= require('./api/fooditem/fooditem');
+const orderRouter= require('./api/foodorder/foodorder');
 
 
 // app.use(
@@ -44,6 +45,8 @@ const connectDB = async () => {
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/food', foodRouter);
+app.use('/api/order', orderRouter);
+
 app.get('/', async (req, res) => {
   res.json({ message: `server is running at ${PORT}` })
 })
