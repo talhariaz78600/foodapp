@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const AdminPanel = require("../models/adminModel")
+const AdminPanel = require("../../models/adminModel")
 const jwt = require('jsonwebtoken');
 const secretIDAdmin = process.env.secret_ID_Admin;
 router.post('/login', async (req, res) => {

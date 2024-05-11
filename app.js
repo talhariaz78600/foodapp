@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
-
+const adminRouter = require('./api/admin/admin');
 const userRouter = require('./api/users/user');
 const authRouter = require('./api/users/auth');
 const foodRouter= require('./api/fooditem/fooditem');
@@ -46,6 +46,7 @@ app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/food', foodRouter);
 app.use('/api/order', orderRouter);
+app.use('/api/admin', adminRouter);
 
 app.get('/', async (req, res) => {
   res.json({ message: `server is running at ${PORT}` })
