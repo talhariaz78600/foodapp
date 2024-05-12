@@ -62,14 +62,14 @@ router.put('/updatestatus/:id',async (req,res)=>{
     }
 })
 ///////////////////// /api/order/deleteOrder/:id /////////////////////
-router.delete('/deleteOrder/:id',async(req,res)=>{
+router.delete('/deleteOrder/:id',async (req,res)=>{
     try {
         const {id}=req.params;
         let item= await FoodOrder.findById(id);
         if(!item){
             res.status(404).json({message:"item not found"})
         }
-        item= await Food.findByIdAndDelete(id);
+        item= await FoodOrder.findByIdAndDelete(id);
         res.status(200).json({message:"item deleted successfully",item})
     } catch (error) {
         res.status(500).json({message:"Internal server error"});
