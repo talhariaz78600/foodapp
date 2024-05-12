@@ -53,10 +53,7 @@ router.put('/updatestatus/:id',async (req,res)=>{
         if(!item){
             res.status(404).json({message:"item not found"})
         }
-        if(status){
-            item.status=status;
-        }
-      
+        item.status=status;
         await item.save();
 
         res.status(200).json({message:"Status update successfully",item});
