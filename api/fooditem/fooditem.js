@@ -64,7 +64,7 @@ router.put('/updateitem/:id',async (req,res)=>{
             item.Description=Description;
         }
         if(itemPrice){
-            item.itemPrice;
+            item.itemPrice=itemPrice;
         }
         if(itemImageUrl){
             item.itemImageUrl=itemImageUrl;

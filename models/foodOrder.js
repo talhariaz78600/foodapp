@@ -10,6 +10,9 @@ let orderSchema = mongoose.Schema({
         ref:'foodItems',
         required: true
     },
+    title:{
+      type:String
+    },
     price: {
       type: Number,
     },

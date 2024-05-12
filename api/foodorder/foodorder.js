@@ -4,12 +4,13 @@ const FoodOrder = require('../../models/foodOrder')
 
 ///////////////////// /api/order/foodorder/////////////////////
 router.post('/foodorder', async (req, res) => {
-    const {userId,productId,price} = req.body;
+    const {userId,productId,price,title} = req.body;
     try {
         const item = new FoodOrder({
             userId: userId,
             productId: productId,
             price: price,
+            title:title
         })
         await item.save();
         res.status(200).json({message:"payment successfully",item})
@@ -53,7 +54,7 @@ router.put('/updatestatus/:id',async (req,res)=>{
             res.status(404).json({message:"item not found"})
         }
         if(status){
-            item.title=title;
+            item.status=status;
         }
       
         await item.save();
@@ -76,6 +77,23 @@ router.delete('/deleteOrder/:id',async(res,req)=>{
     } catch (error) {
         res.status(500).json({message:"Internal server error"});
     }
+});
+
+////////////////////////// /api/order/getUserorders ////////////
+router.get('/getUserorders/:userId',async (req,res)=>{
+    try {
+        
+        const {userId}=req.params;
+        const items= await FoodOrder.find({userId:userId});
+        if(!items){
+            res.status(404).json({message:"Orders not found"})
+        }
+
+        res.status(200).json({message:"Orders get successfully" ,items})
+    } catch (error) {
+        res.status(500).json({message:"Internal server error"})
+    }
+
 })
   
 module.exports = router;
