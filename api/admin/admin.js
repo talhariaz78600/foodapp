@@ -40,7 +40,7 @@ router.post('/login', async (req, res) => {
 // //Admin Sinup  
 router.post('/signup', async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body);
+  console.log(req.body)
 
   try {
     const existingAdmin = await AdminPanel.findOne({ adminemail: email });

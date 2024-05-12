@@ -77,7 +77,7 @@ router.put('/updateitem/:id',async (req,res)=>{
     }
 })
 ///////////////////// /api/food/deleteitem/:id /////////////////////
-router.delete('/deleteitem/:id',async(res,req)=>{
+router.delete('/deleteitem/:id',async(req,res)=>{
     try {
         const {id}=req.params;
         let item= await Food.findById(id);
